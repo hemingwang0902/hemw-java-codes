@@ -1,0 +1,121 @@
+IBM MQ v7.0 消息发送和接收的代码：
+
+    MQSender.java						发送消息
+    MQReceiver.java					接收消息
+
+    MQMessageListener.java		 消息监听器（发送和接收消息，与 Spring 集成）
+    applicationContext-ibmmq.xml 配置文件
+    ibmmq.properties					 IBM MQ 服务器的配置信息
+
+MQ 常用命令：
+    切换到 MQ 用户： su - mqm
+    启动队列管理器：strmqm QM1
+    启动侦听：runmqlsr -t TCP -p 1414 -m QM1 &
+
+/****************************************** 队列管理器 ******************************************/
+    创建队列管理器： crtmqm <qmgrName>
+                             示例：crtmqm -ld /var/mqm/log -lc -lf 16384 -lp 25 -ls 5 QMCIS
+                             参数说明：
+                                 -ld 日志文件目录
+                                 -lc 使用循环日志
+                                 -lf 日志文件页大小
+                                 -lp 主日志文件个数
+                                 -ls 辅助日志文件个数
+                                 QMCIS：队列管理器名
+                                 
+    启动队列管理器： strmqm <qmgrName>
+    
+    停止队列管理器： endmqm -c|-w|-i|-p <qmgrName>
+                             参数说明：
+                                 -c 	  受控关闭（或停顿关闭），这是缺省值
+                                 -w   等待关闭
+                                 -i     立即关闭
+                                 -p    抢先关闭，仅在意外情况下使用此类型的关闭
+
+    删除队列管理器： dltmqm <qmgrName>
+    
+    显示队列管理器启动状态： dspmq
+    
+    修改队列管理器的字符集： alter qmgr CCSID(819)
+
+/****************************************** 队列 ******************************************/
+1. 通过输入以下命令来启用 MQSC 命令：runmqsc
+2. 输入以下命令：define qlocal (Q1)
+3. 此时会显示消息，告诉您已经创建了队列和缺省 WebSphere MQ 对象。通过输入以下命令来停止 MQSC：end
+
+    定义本地队列： def ql(<qmgrName.queueName>) maxdepth(10000) defpsist(yes) replace
+                             参数说明：
+                                 ql(<qmgrName.queueName>)： 队列本地名称
+                                 maxdepth：队列上允许的最大消息数
+                                 defpsist：队列中消息持久性默认值（YES 该队列上的消息在队列管理器重新启动时保存了下来；NO 该队列上的消息在队列管理器重新启动时丢失）
+
+    定义远程队列： def qr(qmgrName.queueName) rname(5819_1) rqmname(QMC5819) xmitq(QMGF) defpsist(yes) replace
+                             参数说明：
+                                 qr(qmgrName.queueName)：队列本地名称，名字可任意取；
+                                 rname(5819_1)：远程队列名，必须与远程队列管理器中的本地队列名相同；
+                                 rqmname(QMC5819)：远程队列管理器名，必须与远程队列管理器名相同；
+                                 xmitq(QMGF)：本地传输队列名称。
+
+    定义传输队列： def ql(qmgrName.queueName) usage(XMITQ) defpsist(YES) maxdepth(50000) trigger trigtype(FIRST) trigdata(999581030604.5819) initq(SYSTEM.CHANNEL.INITQ) replace
+                             参数说明：
+                                 ql (QMGF)：队列本地名称，名字可任意取；
+                                 usage(XMITQ)：指定此本地队列为传输队列，参数值固定填“XMITQ”；
+                                 trigger：启动触发（相应的，NOTRIGGER为禁用触发）
+                                 trigtype(FIRST) ：触发方式，建议值为“FIRST”，即第一条消息触发；
+                                 trigdata(999581030604.5819)：触发数据，值为传输队列将使用的发送通道名；
+                                 initq(SYSTEM.CHANNEL.INITQ)：触发队列，固定填“SYSTEM.CHANNEL.INITQ”。触发器在此的作用是当传输队列接收到第一条消息时，将触发启动指定的发送通道。
+
+    查看队列
+          dis ql(qname) all	显示队列所有属性
+          dis ql(qname) curdepth 显示队列当前深度，即当前队列中存放的消息数
+          dis qs(qname) type(queue) all显示与队列相关的状态信息
+          dis qs(qname) type(handle) all显示与访问队列的句柄相关的状态信息
+
+    删除队列： delete ql(qname)
+
+    清空删除队列中的消息：clear ql(qname)
+	删除队列中的消息出错的处理方案：尝试执行命令RESOLVE CHANNEL(channel_name) ACTION( COMMIT )后，再执行clear ql命令。
+
+/****************************************** 通道 ******************************************/
+    定义接收通道：def chl(999581000107.5819) chltype(rcvr) trptype(tcp) replace
+                             参数说明：
+                                 chl(999581000107.5819)：接收通道名称，必须与远程队列管理器中的发送对列名称相同。推荐的命名规则为 “远程队列管理器名.本地队列管理器名”；
+                                 chltype(rcvr)：指定通道为类型，值固定为“rcvr”；
+                                 trptype(tcp)：通讯协议，除非特别指明，一般采用“tcp”协议。
+
+    定义发送通道： def chl(5819.999581000107) chltype(SDR) discint(0) conname('10.2.106.106(1417)') xmitq(QMCIS) trptype(tcp) replace
+
+    定义服务器连接通道： def chl() chltype() replace
+
+    	删除通道： Delete chl(channel name)
+
+    查看通道状态： dis chs(channel name)
+         通道的当前状态，它可以是正在启动、正在绑定、正在初始化、正在运行、正在停止、正在重试、已暂停、已停止、正在请求和通道状态未找到。
+             正常运行时，通道状态为“正在运行”；
+             关闭通道时，通道状态为“已停止”；
+             如果通道状态长时间处于“正在绑定”（binding）、“正在重试”（retrying），则表明通道不正常，需要人工介入。这时可查看队列管理器日志文件，日志文件中一般会提供异常原因。
+             关于“通道状态未找到”：此状态值仅表示当前没有建立到此通道的连接，并不能表示通道是否正常。
+
+    启动通道： Start chl(channel name)
+
+    关闭通道： Stop chl(channel name)
+
+    重置通道： reset chl(channel name)
+
+
+/****************************************** 监听器 ******************************************/
+    定义监听器： def listener(QMC5819) TRPTYPE(TCP) PORT(1417) CONTROL(STARTONLY) BACKLOG(0) replace
+                             参数说明：
+                                 listener(QMC5819)：监听器名，名称可任意取；
+                                 TRPTYPE(TCP)：通讯协议类型；
+                                 PORT（1417）：服务监听端口
+                                 CONTROL(string）指定如何启动和停止侦听器： 
+                                 MANUAL 不会自动启动或自动停止侦听器。通过使用 START LISTENER 命令和 STOP LISTENER 命令来控制它。这是缺省值。 
+                                 QMGR 	当队列管理器启动和停止时，同时启动和停止被定义的侦听器。 
+                                 STARTONLY 当队列管理器启动时，同时启动侦听器，但当队列管理器停止时，不请求停止侦听器。 
+
+    启动监听器： start listener(QMC5819)
+
+    关闭监听器： stop listener(QMC5819)
+
+    查看监听器状态： dis lsstatus(LISTENER.TCP) all (QMC5819) all

@@ -1,0 +1,12 @@
+﻿General
+    Content Types
+    Editors
+        TextEditors
+            Spelling
+    Startup and Shutdown
+        Workspaces
+    Workspace
+Java
+    Installed JREs
+MyEclipse
+    Validation

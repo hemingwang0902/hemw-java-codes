@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- 用来连接ActiveMQ的连接工厂 -->
+	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://192.168.1.131:61616" />
+		<property name="useAsyncSend" value="true" />
+	</bean>
+
+	<!-- 声明ActiveMQ消息目标,目标可以是一个队列，也可以是一个主题ActiveMQTopic -->
+	<bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg index="0" value="queue.test" />
+	</bean>
+
+	<!-- Spring封装的JMS发送和接收消息的模板。 -->
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="defaultDestination" ref="destination" />
+		<!--<property name="messageConverter" ref="myMessageConverter"/> -->
+	</bean>
+
+	<!-- 对接收和发送的消息进行转换 -->
+	<bean id="myMessageConverter" class="com.hmw.jms.activemq.MyMessageConverter" />
+	<!-- 消息驱动Bean，用来监听队列中的消息，异步接收处理消息 -->
+	<bean id="messageListener" class="com.hmw.jms.activemq.MyMessageListener">
+		<property name="messageConverter" ref="myMessageConverter" />
+		<property name="jmsTemplate" ref="jmsTemplate" />
+		<!-- <property name="destinationName" value="queue.test" /> -->
+	</bean>
+
+	<!-- 消息监听容器，当消息到达时，将消息转给messageListener，而且可以设置多个消费者。 -->
+	<bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer" lazy-init="false">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destination" ref="destination" />
+		<property name="messageListener" ref="messageListener" />
+		<property name="concurrentConsumers" value="5" />
+		<!-- 0: CACHE_NONE; 1: CACHE_CONNECTION; 2: CACHE_SESSION; 3: CACHE_CONSUMER; 4: CACHE_AUTO -->
+		<property name="cacheLevel" value="0" />
+	</bean>
+</beans>

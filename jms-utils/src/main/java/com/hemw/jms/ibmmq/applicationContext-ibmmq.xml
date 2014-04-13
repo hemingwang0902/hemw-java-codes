@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xsi:schemaLocation="
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+    <!-- property配置文件路径位置 -->
+    <context:property-placeholder location="classpath:com/hmw/jms/ibmmq/ibmmq.properties" ignore-unresolvable="true"/>
+    
+	<!-- 基于注解 -->
+	<context:annotation-config/>
+	<!-- 注解探测器 -->
+	<context:component-scan base-package="com.hmw.jms.ibmmq"/>
+
+	<!-- 队列连接工厂 -->
+    <bean id="queueConnectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory">
+        <property name="hostName" value="${MQ.hostName}" />
+        <property name="port" value="${MQ.port}" />
+        <property name="channel" value="${MQ.channel}" />
+        <property name="queueManager" value="${MQ.queueManager}" />
+        <property name="CCSID" value="${MQ.CCSID}" />
+        <property name="transportType" value="${MQ.transportType}" />
+    </bean>
+
+    <!-- 固定配置开始 -->
+    <bean id="jmsConnectionFactory" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+        <property name="targetConnectionFactory" ref="queueConnectionFactory" />
+        <!--<property name="username" value="" />
+        <property name="password" value=" " />-->
+    </bean>
+
+    <bean id="jmsTransactionManager" class="org.springframework.jms.connection.JmsTransactionManager">
+        <property name="connectionFactory" ref="jmsConnectionFactory" />
+    </bean>
+
+    <bean id="txProxyTemplateJms" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true">
+        <property name="transactionManager" ref="jmsTransactionManager" />
+        <property name="transactionAttributes">
+            <props>
+                <prop key="send*">PROPAGATION_REQUIRED</prop>
+                <prop key="get*">PROPAGATION_REQUIRED</prop>
+                <prop key="process*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsConnectionFactory" />
+    </bean>
+    <!-- 固定配置结束 -->
+
+    <!-- 测试的消息队列 -->
+    <bean id="destination" class="com.ibm.mq.jms.MQQueue">
+        <property name="baseQueueName" value="${MQ.queue.test}" />
+        <!--<property name="targetClient" value="1"/>-->
+    </bean>
+
+	<bean id="mQMessageListener" class="com.hmw.jms.ibmmq.MQMessageListener">
+		<property name="destinationName" value="test"/>
+	</bean>
+
+    <bean id="listenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="queueConnectionFactory"/>
+        <property name="destination" ref="destination"/>
+        <property name="messageListener" ref="mQMessageListener"/>
+    </bean>
+    
+</beans>

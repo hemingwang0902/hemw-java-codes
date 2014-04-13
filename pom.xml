@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.hemw.utils</groupId>
+		<artifactId>utils-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>./utils-parent/</relativePath>
+	</parent>
+
+	<artifactId>hemw-utils</artifactId>
+	<packaging>pom</packaging>
+	<!--name>何明旺的开发工具集</name-->
+	
+	<modules>
+		<module>java-utils</module>
+		<module>jdbc-utils</module>
+		<module>jms-utils</module>
+		<module>java-web-utils</module>
+	</modules>
+</project>

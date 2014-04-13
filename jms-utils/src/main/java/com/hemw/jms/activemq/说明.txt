@@ -1,0 +1,16 @@
+ActiveMQ 与 Spring 的集成：
+    ActivemqQueue.java						点对对发送和接收消息
+    ActivemqTopic.java							发布/订阅的方式发送和接收消息
+    applicationContext-activemq.xml		配置文件
+    MyMessageListener.java					ActiveMQ 与 Spring 集成，发送和接收消息，该类依赖 MyMessageConverter.java 和 MyMessageDescription.java
+
+    
+ActiveMQConnectionFactory 提供了多种连接到Broker的方式（http://activemq.apache.org/uri-protocols.html）， 常用的有如下几种：
+    vm://host:port     //vm 
+    tcp://host:port    //tcp
+    ssl://host:port    //SSL
+    stomp://host:port  //stomp协议可以跨语言,目前有很多种stomp client 库(java,c#,c/c++,ruby,python...);
+
+启动 apache-activemq-5.6.0/bin/activemq.bat
+    管理控制台：http://localhost:8161/admin/
+    示例程序：http://localhost:8161/demo/

@@ -1,0 +1,35 @@
+使用的时候，只需使用到如下两个类就可以了：
+    JdbcTemplate.java
+    JdbcUtils.java
+
+JDBC连接各种数据库的字符串
+
+  oracle
+    driverClass：oracle.jdbc.driver.OracleDriver
+    url：jdbc:oracle:thin:@127.0.0.1:1521:dbname
+
+  mysql
+    driverClass：com.mysql.jdbc.Driver
+    url：jdbc:mysql://localhost:3306/mydb
+    补充：有的时候，mysql的驱动类也也会看到使用org.gjt.mm.mysql.Driver的情况，org.gjt.mm.mysql.Driver是早期的驱动名称，后来就改名为com.mysql.jdbc.Driver，现在一般都推荐使用 com.mysql.jdbc.Driver。在最新版本的mysql jdbc驱动中，为了保持对老版本的兼容，仍然保留了org.gjt.mm.mysql.Driver，但是实际上 org.gjt.mm.mysql.Driver中调用了com.mysql.jdbc.Driver，因此现在这两个驱动没有什么区别。
+
+  DB2
+    driverClass：com.ibm.db2.jcc.DB2Driver
+    url：jdbc:db2://127.0.0.1:50000/dbname
+
+  sybase
+    driverClass：com.sybase.jdbc.SybDriver
+    url：jdbc:sybase:Tds:localhost:5007/dbname
+
+  PostgreSQL
+    driverClass：org.postgresql.Driver
+    url：jdbc:postgresql://localhost/dbname
+
+  Sql Server2000
+    driverClass：com.microsoft.jdbc.sqlserver.SQLServerDriver
+    url：jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=dbname
+
+  Sql Server2005
+    driverClass：com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url：jdbc:sqlserver://localhost:1433; DatabaseName=dbname
+    补充：SQL Server2000和2005的驱动是有区别的，使用错误的时候，会出现下面这个错误。java.sql.SQLException: [Microsoft][SQLServer JDBC Driver][SQLServer]传入的表格格式数据流(TDS)远程过程调用(RPC)协议流不正确。参数 1 (""): 数据类型 0x38 未知。

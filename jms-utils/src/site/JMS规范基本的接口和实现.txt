@@ -1,0 +1,7 @@
+ JMS Common Interfacse        PTP-Specific Interface        Pub/Sub-specific interfaces
+     ConnectionFactory          QueueConnectionFactory        TopicConnectionFactory
+     Connection                    QueueConnection                   TopicConnection
+     Destination                    Queue                                   Topic
+     Session                         QueueSession                         TopiSession
+     MessageProducer          QueueSender                         TopicPublisher
+     MessageConsumer        QueueReceiver/QueueBrwer    TopicSubscriber

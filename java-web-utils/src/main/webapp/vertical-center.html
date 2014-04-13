@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+		<title>CSS垂直居中-测试页面</title>
+		<style>
+p,div {
+	font-size: 12px;
+}
+
+#outer {
+	height: 400px;
+	display: table;
+	background-color: #E7F0FE;
+	overflow: hidden; #
+	position: relative;
+	padding: 5px;
+}
+
+#middle {
+	display: table-cell;
+	vertical-align: middle; #
+	position: absolute; #
+	top: 50%;
+}
+
+#inner { #
+	position: relative; #
+	top: -50%;
+	padding: 3px;
+}
+
+.border {
+	border: 1px solid #BADFFE;
+}
+
+a:link {
+	text-decoration: none;
+	color: #415CF5;
+}
+
+a:visited {
+	text-decoration: none;
+	color: #666666;
+}
+
+a:hover {
+	color: #FF3300;
+	text-decoration: underline;
+}
+</style>
+	</head>
+
+	<body>
+		<h1 style="font-family: 微软雅黑; color: #313131">CSS完美实现垂直居中-测试页</h1>
+		<p style="color: red;">已测试通过的浏览器:IE5.0、IE5.5、IE6.0、IE7.0、IE8.0、FireFox、Opera7、Safari等...</p>
+		<div id="outer" class="border">
+			<div id="middle">
+				<div id="inner" class="border">
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/502477.aspx">HTML+CSS</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/298038.aspx" title="Java基础， J2ee框架...">Java</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/298037.aspx" title="Javascript">javascript</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/567103.aspx">javaWeb</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/553098.aspx">jQuery</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/612012.aspx">Linux</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/298036.aspx" title="struts2.x">struts2</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/466592.aspx">SWT/JFace/RCP</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/560136.aspx">VML编程</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/422070.aspx">非技术类</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/421661.aspx" title="一些常用的开发工具的技巧特性，如： Eclipse， Myeclipse， WSAD， SVN, VSS， Tomcat等">开发工具</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/422069.aspx" title=".net, php......">其他技术</a><br />
+					<a target="_blank" href="http://blog.csdn.net/hemingwang0902/category/298039.aspx" title="Oracle, SQL server, Mysql, DB2, Derby">数据库</a>
+				</div>
+			</div>
+		</div>
+		<p>
+			阅读该垂直居中方法的 <a href="#">详细讲解</a><br />
+		</p>
+		<p>
+			<a target="_blank" href="http://blog.csdn.net/hemingwang0902" title="旺仔的专栏">返回我的博客主页</a>查看更多关于Java开发及网页设计的文章。
+		</p>
+	</body>
+</html>

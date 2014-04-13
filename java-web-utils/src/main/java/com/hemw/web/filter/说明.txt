@@ -1,0 +1,8 @@
+BannedAccessFilter.java					设置禁用站点（黑名单）的过滤器，不能从禁止的站点用跳转过来进行访问
+ClearCacheFilter.java						设置页面不进行缓存的过滤器
+CloseHibernateSessionFilter.java		关闭 Hibernate 的 Session 对象的过滤器
+CompressionFilter.java					压缩过滤器，如果浏览器支持 gzip 压缩格式的数据，则将响应的数据使用 gzip 压缩后再输出。
+EncodingFilter.java							编码过滤器，设置请求和响应的字符编码
+ReplaceSiteNameFilter.java				字符替换过滤器，替换网页中的关键字，可用于替换敏感词
+SecurityFilter.java							用于检查用户是否登录了系统的过滤器
+SessionFilter.java							用于检查用户是否登录了系统的过滤器
