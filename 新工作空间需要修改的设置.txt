@@ -1,12 +1,82 @@
 ﻿General
-    Content Types
+    Appearance - 选择默认主题，取消勾选 Enable animations
+    Colors and Fonts - Basic -> Text Font -> Edit... 字体设置为 Courier New
+    Content Types - Text 及所有后代节点的 Default Encoding 全部设置为 UTF-8
     Editors
-        TextEditors
-            Spelling
-    Startup and Shutdown
-        Workspaces
-    Workspace
+        File Associations - 将 *.jsp 和 *.html 的默认编辑器改为 MyEclipse JSP/HTML Editor
+        TextEditors - 勾选 Insert space for tabs
+            Spelling - 取消勾选 Enable spell checking
+    Startup and Shutdown - 取消勾选那些压根儿就用不着的插件
+    Workspace - 将 Text file encoding 的值设置为 UTF-8
+Install/Update
+    Automatic Updates - 取消勾选 Automatically find new updates and notify me
 Java
-    Installed JREs
+    Code Style
+        Code Templates - 修改 Comments 下 Files 和 Types 的模板
+        Formatter - 创建一个自定义的代码格式化规则：
+                 1. Indentation 选项止中，将 Tab pllicy 的值设置为 Spaces only
+                 2. Line Wrapping 选项卡中将 Maximum line width 的值设置为 160
+                 3. Comments 选项卡中取消勾选 New line after @param tags
+    Installed JREs - 添加自己安装的 JDK
 MyEclipse
-    Validation
+    Files and Editors
+        ASP and PHP - Encoding 选中第一项（UTF-8）
+        CSS - Encoding 选中第一项（UTF-8）
+            CSS Source - 选中 Endent using spaces 单选按钮，并将 Indentation size 的值改为 4
+                Templates - 修改 New CSS File 的模板，加上创建日期和版权声明
+        HTML - Encoding 选中第一项（UTF-8）
+            HTML Source - 将 Line Windth 设置为 200，选中 Endent using spaces 单选按钮，并将 Indentation size 的值改为 4，移除掉 Inline Element 上的 span
+                Templates - 修改 New HTML File 的模板，加上创建日期和版权声明等信息
+        Javascript - Encoding 选中第一项（UTF-8）
+            Code Style
+                Code Template - 修改相应的代码模板
+                Fomatter - 点击 New...按钮，创建一个自定义的代码格式化规则：
+                 1. Indentation 选项止中，将 Tab pllicy 的值设置为 Spaces only
+                 2. Line Wrapping 选项卡中将 Maximum line width 的值设置为 160
+                 3. Comments 选项卡中取消勾选 New line after @param tags
+            Editor
+                Templates - 新增一些自己的 js 代码模板，如： bindEvt, ajaxRequest, jqueryPlugin 等分别对应 jquery 的事件绑定、发起 ajax 请求和编写 jQuery 插件的代码模板
+            Include Path
+                User Libraries - 添加 jQuery、ExtJs、BootStrap 和 MiniUI 等 JS 库
+        JSP - Encoding 选中第一项（UTF-8）
+            JSP Source
+                Templates - 修改 New JSP File 的模板，加上创建日期和版权声明等信息
+        XML
+            XML Files - Encoding 选中第一项（UTF-8）
+                XML Source - 将 Line Windth 设置为 200，选中 Endent using spaces 单选按钮
+                    Templates - 修改 New JSP File 的模板，加上创建日期和版权声明等信息
+    Maven4MyEclipse - 勾选 Download Arifact Sources 和 Download Arifact JavaDoc
+        Installations - 点击 Add... 按钮，添加自己安装的 Apache Maven
+        Usre Settings - 点击 Browse...按钮，设置自己安装的 Apache Maven 的配置文件
+    Servers
+        Tomcat - 配置对应版本的 Tomcat，记住要选中 Enable 单选框
+    Validation - 取消勾选 JSP、HTML、XML 和 javascript 等不需要进行校验的校验器。或者直接勾选 Suspend all validators 禁用校验
+Run/Debug
+    Console - 取消勾选 Limit console output
+Team
+    Ignored Resources - 添加需要忽略的文件规则，如：.project、.classpath 等
+
+可选操作：
+1. 使用最新版的 JDK
+2. 调整 eclipse.ini/myeclipseforspring.ini 中的启动参数，优化项示例：
+    # 设置需要使用的 JDK
+    -vm
+    v:/Java/jdk1.8.0_40/bin/javaw.exe
+    # 设置 JVM 参数，更多 JVM 参数请参考 http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.10
+    -vmargs
+    # 堆内存
+    -Xms1024m
+    -Xmx1024m
+    # 新生代堆内存
+    -Xmn256m
+    # 永生代内存，JDK8 中移除了永生代内在，改为如下方式配置:  -XX:MetaSpaceSize -XX:MaxMetaspaceSize
+    -XX:PermSize=320m
+    -XX:MaxPermSize=320m
+    # 每个线程栈大小
+    -Xss2m
+    # 打开编译器性能优化
+    -XX:+AggressiveOpts
+    # 调整垃圾收集
+    # -XX:+UseParallelOldGC
+3. 如果有杀毒软件，将 JDK、Eclipse/MyEclipse、Maven 仓库和代码文件夹添加到杀毒软件的白名单
+4. 如果不是使用固态硬盘，而且机器内存比较大，则可以将 JDK 放在内存盘（RAM Disk）上，推荐使用 SuperSpeed RamDisk Plus
