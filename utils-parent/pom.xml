@@ -67,7 +67,7 @@
 		<dozer.version>5.3.2</dozer.version>
 		<httpclient.version>4.1.1</httpclient.version>
 		<freemarker.version>2.3.19</freemarker.version>
-		<junit.version>4.11</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<servlet-api.version>2.5</servlet-api.version>
         <jsp-api.version>2.3.1</jsp-api.version>
 		<jstl.version>1.2</jstl.version>
