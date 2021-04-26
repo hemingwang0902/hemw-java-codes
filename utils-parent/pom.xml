@@ -44,7 +44,7 @@
         <commons-vfs2.version>2.0</commons-vfs2.version>
         <commons-lang.version>2.6</commons-lang.version>
         <commons-math.version>2.2</commons-math.version>
-		<commons-io.version>2.4</commons-io.version>
+		<commons-io.version>2.7</commons-io.version>
 		<commons-net.version>3.3</commons-net.version>
 		<commons-codec.version>1.8</commons-codec.version>
 		<commons-beanutils.version>1.8.3</commons-beanutils.version>
