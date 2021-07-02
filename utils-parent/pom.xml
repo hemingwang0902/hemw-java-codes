@@ -80,7 +80,7 @@
 		<ehcache-web.version>2.0.4</ehcache-web.version>
 		<javaee.version>5</javaee.version>
 		<tika.version>1.4</tika.version>
-		<elasticsearch.version>0.90.3</elasticsearch.version>
+		<elasticsearch.version>6.8.15</elasticsearch.version>
 		<spring-elasticsearch.version>0.2.0</spring-elasticsearch.version>
         <spring-data-redis.version>1.1.0.RELEASE</spring-data-redis.version>
 		<elasticsearch-test.version>0.0.8</elasticsearch-test.version>
