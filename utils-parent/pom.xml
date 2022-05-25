@@ -18,7 +18,7 @@
 		<!-- 主要依赖库的版本定义 -->
 		<hemw.utils.version>0.0.1-SNAPSHOT</hemw.utils.version>
         <connector-api.version>1.5</connector-api.version>
-		<spring.version>3.2.8.RELEASE</spring.version>
+		<spring.version>5.5.7</spring.version>
 		<aop.version>1.7.1</aop.version>
 		<cglib.version>2.2.2</cglib.version>
 		<asm.version>3.3.1</asm.version>
