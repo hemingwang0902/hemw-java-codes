@@ -28,7 +28,7 @@
         <hibernate.version>3.6.10.Final</hibernate.version>
 		<mysql-connector-java.version>5.1.22</mysql-connector-java.version>
 		<ojdbc.version>11.1.0.7.0</ojdbc.version>
-		<cxf.version>2.7.1</cxf.version>
+		<cxf.version>2.7.8</cxf.version>
 		<sitemesh.version>2.4.2</sitemesh.version>
 		<quartz.version>2.1.7</quartz.version>
 		<ehcache.version>2.6.2</ehcache.version>
