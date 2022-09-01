@@ -86,7 +86,7 @@
 		<elasticsearch-test.version>0.0.8</elasticsearch-test.version>
 		<joda-time.version>1.6.2</joda-time.version>
 		<ant.version>1.9.2</ant.version>
-        <jsoup.version>1.7.2</jsoup.version>
+        <jsoup.version>1.15.3</jsoup.version>
         <htmlparser.version>2.1</htmlparser.version>
         <jms.version>1.1</jms.version>
         <jms-api.version>2.0</jms-api.version>
